@@ -32,6 +32,7 @@
 
 #include "mongo/transport/service_state_machine.h"
 
+
 #include "mongo/db/client.h"
 #include "mongo/db/dbmessage.h"
 #include "mongo/db/stats/counters.h"
@@ -51,6 +52,10 @@
 #include "mongo/util/net/socket_exception.h"
 #include "mongo/util/net/thread_idle_callback.h"
 #include "mongo/util/quick_exit.h"
+
+#include "mongo/stdx/mutex.h"
+
+
 
 namespace mongo {
 namespace {
@@ -91,6 +96,8 @@ bool setExhaustMessage(Message* m, const DbResponse& dbresponse) {
 
 using transport::TransportLayer;
 using transport::ServiceExecutor;
+
+static stdx::mutex screen_lock;
 
 /*
  * This class wraps up the logic for swapping/unswapping the Client during runNext().
@@ -291,7 +298,9 @@ void ServiceStateMachine::_sinkCallback(Status status) {
 void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    printf("%llu ", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+    screen_lock.lock();
+    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+    screen_lock.unlock();
     // This may have been called just after a failure to source a message, in which case this
     // should return early so the session can be cleaned up.
     if (state() != State::Process) {
@@ -351,7 +360,10 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
 
         struct timeval tv;
         gettimeofday(&tv, NULL);
-        printf("%llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+
+        screen_lock.lock();
+        printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+        screen_lock.unlock();
 
         _state.store(State::SinkWait);
         if (_sync) {

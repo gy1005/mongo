@@ -33,6 +33,9 @@
 #include "mongo/util/quick_exit.h"
 #include "mongo/util/text.h"
 
+
+
+
 #if defined(_WIN32)
 // In Windows, wmain() is an alternate entry point for main(), and receives the same parameters
 // as main() but encoded in Windows Unicode (UTF-16); "wide" 16-bit wchar_t characters.  The
@@ -45,7 +48,8 @@ int wmain(int argc, wchar_t* argvW[], wchar_t* envpW[]) {
     mongo::quickExit(exitCode);
 }
 #else
-int main(int argc, char* argv[], char** envp) {
+
+int main(int argc, char* argv[], char** envp) {    
     int exitCode = mongo::mongoDbMain(argc, argv, envp);
     mongo::quickExit(exitCode);
 }

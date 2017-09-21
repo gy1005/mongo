@@ -48,6 +48,8 @@
 #include "mongo/util/net/socket_exception.h"
 #include "mongo/util/net/ssl_types.h"
 
+// stdsx::mutex screen_lock;
+
 namespace mongo {
 namespace transport {
 
@@ -124,6 +126,7 @@ Status TransportLayerLegacy::setup() {
 }
 
 Status TransportLayerLegacy::start() {
+    
     if (_running.swap(true)) {
         return {ErrorCodes::InternalError, "TransportLayer is already running"};
     }
