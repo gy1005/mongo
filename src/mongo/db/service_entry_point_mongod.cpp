@@ -1029,6 +1029,7 @@ DbResponse receivedGetMore(OperationContext* opCtx,
 }  // namespace
 
 DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const Message& m) {
+    // std::cout<<"req start"<<" ";
     // before we lock...
     NetworkOp op = m.operation();
     bool isCommand = false;
@@ -1164,6 +1165,7 @@ DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const
     }
 
     recordCurOpMetrics(opCtx);
+    // std::cout<<"req end"<<std::endl;
     return dbresponse;
 }
 

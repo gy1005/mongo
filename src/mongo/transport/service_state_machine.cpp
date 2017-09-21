@@ -289,6 +289,9 @@ void ServiceStateMachine::_sinkCallback(Status status) {
 }
 
 void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    printf("%llu ", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
     // This may have been called just after a failure to source a message, in which case this
     // should return early so the session can be cleaned up.
     if (state() != State::Process) {
@@ -346,6 +349,10 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
         // Sink our response to the client
         auto ticket = _session()->sinkMessage(toSink);
 
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        printf("%llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+
         _state.store(State::SinkWait);
         if (_sync) {
             _sinkCallback(_session()->getTransportLayer()->wait(std::move(ticket)));
@@ -356,6 +363,7 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
     } else {
         _state.store(State::Source);
         _inMessage.reset();
+        
         return scheduleNext(ServiceExecutor::DeferredTask);
     }
 }
