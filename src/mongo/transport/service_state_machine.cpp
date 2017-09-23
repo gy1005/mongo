@@ -296,16 +296,19 @@ void ServiceStateMachine::_sinkCallback(Status status) {
 }
 
 void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    screen_lock.lock();
-    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
-    screen_lock.unlock();
+
     // This may have been called just after a failure to source a message, in which case this
     // should return early so the session can be cleaned up.
     if (state() != State::Process) {
         return;
     }
+
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    screen_lock.lock();
+    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+    screen_lock.unlock();
+
     invariant(!_inMessage.empty());
 
     auto& compressorMgr = MessageCompressorManager::forSession(_session());
