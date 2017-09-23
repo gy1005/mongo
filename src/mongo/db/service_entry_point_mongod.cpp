@@ -1029,6 +1029,12 @@ DbResponse receivedGetMore(OperationContext* opCtx,
 }  // namespace
 
 DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const Message& m) {
+
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+
+
     // std::cout<<"req start"<<" ";
     // before we lock...
     NetworkOp op = m.operation();
@@ -1166,6 +1172,12 @@ DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const
 
     recordCurOpMetrics(opCtx);
     // std::cout<<"req end"<<std::endl;
+
+
+//    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+
     return dbresponse;
 }
 
