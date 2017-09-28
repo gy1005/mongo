@@ -53,7 +53,7 @@
 #include "mongo/util/net/thread_idle_callback.h"
 #include "mongo/util/quick_exit.h"
 
-#include "mongo/stdx/mutex.h"
+// #include "mongo/stdx/mutex.h"
 
 
 
@@ -97,7 +97,7 @@ bool setExhaustMessage(Message* m, const DbResponse& dbresponse) {
 using transport::TransportLayer;
 using transport::ServiceExecutor;
 
-static stdx::mutex screen_lock;
+// static stdx::mutex screen_lock;
 
 /*
  * This class wraps up the logic for swapping/unswapping the Client during runNext().
@@ -303,11 +303,11 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
         return;
     }
 
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    screen_lock.lock();
-    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
-    screen_lock.unlock();
+    // struct timeval tv;
+    // gettimeofday(&tv, NULL);
+    // screen_lock.lock();
+    // printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+    // screen_lock.unlock();
 
     invariant(!_inMessage.empty());
 
@@ -379,12 +379,12 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
         _state.store(State::Source);
         _inMessage.reset();
 
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
+        // struct timeval tv;
+        // gettimeofday(&tv, NULL);
 
-        screen_lock.lock();
-        printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
-        screen_lock.unlock();
+        // screen_lock.lock();
+        // printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+        // screen_lock.unlock();
         
         return scheduleNext(ServiceExecutor::DeferredTask);
     }

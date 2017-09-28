@@ -1030,9 +1030,9 @@ DbResponse receivedGetMore(OperationContext* opCtx,
 
 DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const Message& m) {
 
-//    struct timeval tv;
-//    gettimeofday(&tv, NULL);
-//    printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+   struct timeval tv;
+   gettimeofday(&tv, NULL);
+   printf("start %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
 
 
     // std::cout<<"req start"<<" ";
@@ -1174,9 +1174,9 @@ DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const
     // std::cout<<"req end"<<std::endl;
 
 
-//    struct timeval tv;
-//    gettimeofday(&tv, NULL);
-//    printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+   struct timeval tv;
+   gettimeofday(&tv, NULL);
+   printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
 
     return dbresponse;
 }
