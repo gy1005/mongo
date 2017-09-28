@@ -171,6 +171,7 @@ void ServiceEntryPointMongod::_sessionLoop(const transport::SessionHandle& sessi
             inExhaust = false;
         }
 
+        gettimeofday(&tv, NULL);s
         screen_lock.lock();
         printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
         screen_lock.unlock();
