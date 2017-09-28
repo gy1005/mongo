@@ -361,12 +361,12 @@ void ServiceStateMachine::_processMessage(ThreadGuard& guard) {
         // Sink our response to the client
         auto ticket = _session()->sinkMessage(toSink);
 
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
+        // struct timeval tv;
+        // gettimeofday(&tv, NULL);
 
-        screen_lock.lock();
-        printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
-        screen_lock.unlock();
+        // screen_lock.lock();
+        // printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
+        // screen_lock.unlock();
 
         _state.store(State::SinkWait);
         if (_sync) {
