@@ -1174,7 +1174,7 @@ DbResponse ServiceEntryPointMongod::handleRequest(OperationContext* opCtx, const
     // std::cout<<"req end"<<std::endl;
 
 
-   struct timeval tv;
+
    gettimeofday(&tv, NULL);
    printf("end %llu\n", (unsigned long long) (tv.tv_sec * 1000000 + tv.tv_usec));
 
